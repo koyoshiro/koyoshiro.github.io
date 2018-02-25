@@ -624,8 +624,7 @@
 </li>
 </ul>
 <h3 id="字符串模板"><a href="#字符串模板" class="headerlink" title="字符串模板"></a>字符串模板</h3><p>字符串可以包含模板表达式 ，模板表达式以美元符（$）开头<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">val i = 10</span><br><span class="line">val s = &quot;i = $i&quot; // 求值结果为 &quot;i = 10&quot;</span><br></pre></td></tr></table></figure></p>
-<p>或<br><code>`</code></p>
-<p><code>`</code>val s = “abc”<br>val str = “$s.length is ${s.length}” // 求值结果为 “abc.length is 3”</p>
+<p>或<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">val s = &quot;abc&quot;</span><br><span class="line">val str = &quot;$s.length is $&#123;s.length&#125;&quot; // 求值结果为 &quot;abc.length is 3&quot;</span><br></pre></td></tr></table></figure></p>
 
           
         
