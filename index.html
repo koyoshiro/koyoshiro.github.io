@@ -229,6 +229,291 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/27/kotlin-returns/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Koyoshiro">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="从你的全世界璐过">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/27/kotlin-returns/" itemprop="url">kotlin-returns</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-27T22:54:56+08:00">
+                2018-02-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h2><p>Kotlin 有三种结构化跳转表达式：</p>
+<ul>
+<li>return：默认从最直接包围它的函数或者匿名函数返回。</li>
+<li>break：终止最直接包围它的循环。</li>
+<li>continue：继续下一次最直接包围它的循环。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">fun print(num:Int)&#123;</span><br><span class="line">    if(num==1) return // i 为 1 时 跳出函数</span><br><span class="line">    println(num)</span><br><span class="line">&#125;</span><br><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">    for (i in 1..10) &#123;</span><br><span class="line">        if (i==3) continue  // i 为 3 时跳过当前循环，继续下一次循环</span><br><span class="line">        print(i)</span><br><span class="line">        if (i&gt;5) break   // i 为 6 时 跳出循环</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">//2</span><br><span class="line">//4</span><br><span class="line">//5</span><br><span class="line">//6</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h2><p>在 Kotlin 中任何表达式都可以用标签（label）来标记。<br>标签的格式为标识符后跟 @ 符号，例如：abc@、fooBar@都是有效的标签。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">loop@ for (i in 1..100) &#123;</span><br><span class="line">    // ……</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h2 id="Break-和-Continue-标签"><a href="#Break-和-Continue-标签" class="headerlink" title="Break 和 Continue 标签"></a>Break 和 Continue 标签</h2><p>标签限制的 break 跳转到刚好位于该标签指定的循环后面的执行点；<br>标签限制的 continue 继续标签指定的循环的下一次迭代。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">    loop@ for (i in 1..100) &#123;</span><br><span class="line">        for (j in 1..100) &#123;</span><br><span class="line">            if (i==2) break@loop    //当i=2时，结束loop循环</span><br><span class="line">            if (j==2) continue@loop //当j=2时，继续loop的下一次循环</span><br><span class="line">            println(&quot;now i is $i,j is $j&quot;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// now i is 1,j is 1</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="Return标签"><a href="#Return标签" class="headerlink" title="Return标签"></a>Return标签</h2><p>标签限制的 return 允许我们从外层函数返回，最重要的一个用途就是从 lambda 表达式中返回</p>
+<ul>
+<li><p>不使用标签的lambda 表达式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">fun foo() &#123;</span><br><span class="line">    listOf(1, 2, 3, 4, 5).forEach &#123;</span><br><span class="line">        if (it == 3) return // 非局部直接返回到 foo() 的调用者</span><br><span class="line">        print(it)</span><br><span class="line">    &#125;</span><br><span class="line">    println(&quot;this point is unreachable&quot;)</span><br><span class="line">&#125;</span><br><span class="line">//12</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用标签的lambda 表达式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">fun foo() &#123;</span><br><span class="line">    listOf(1, 2, 3, 4, 5).forEach lit@&#123;</span><br><span class="line">        if (it == 3) return@lit // 局部返回到该 lambda 表达式的调用者，即 forEach 循环</span><br><span class="line">        print(it)</span><br><span class="line">    &#125;</span><br><span class="line">    print(&quot; done with explicit label&quot;)</span><br><span class="line">&#125;</span><br><span class="line">//1245 done with explicit label</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用隐式标签的lambda 表达式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">fun foo() &#123;</span><br><span class="line">    listOf(1, 2, 3, 4, 5).forEach &#123;</span><br><span class="line">        if (it == 3) return@forEach // 局部返回到该 lambda 表达式的调用者，即 forEach 循环</span><br><span class="line">        print(it)</span><br><span class="line">    &#125;</span><br><span class="line">    print(&quot; done with implicit label&quot;)</span><br><span class="line">&#125;</span><br><span class="line">//1245 done with explicit label</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用匿名函数替代的lambda 表达式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">fun foo() &#123;</span><br><span class="line">    listOf(1, 2, 3, 4, 5).forEach(fun(value: Int) &#123;</span><br><span class="line">        if (value == 3) return  // 局部返回到匿名函数的调用者，即 forEach 循环</span><br><span class="line">        print(value)</span><br><span class="line">    &#125;)</span><br><span class="line">    print(&quot; done with anonymous function&quot;)</span><br><span class="line">&#125;</span><br><span class="line">//1245 done with anonymous function</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用标签直接返回值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">fun foo() &#123;</span><br><span class="line">    var a=run loop@&#123;</span><br><span class="line">        return@loop 333 </span><br><span class="line">    &#125;</span><br><span class="line">    print(a)</span><br><span class="line">&#125;</span><br><span class="line">//333</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/27/kotlin-loop-control/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Koyoshiro">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="从你的全世界璐过">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/27/kotlin-loop-control/" itemprop="url">kotlin-loop-control</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-27T22:36:44+08:00">
+                2018-02-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h2><p>循环控制：for、while、do…while </p>
+<hr>
+<h2 id="for"><a href="#for" class="headerlink" title="for"></a>for</h2><p>可以对任何提供迭代器（iterator）的对象进行遍历</p>
+<ul>
+<li><p>循环体是语句</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">for (item in collection) print(item)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>循环体是代码块</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for (i in array.indices) &#123;</span><br><span class="line">    print(array[i])</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>循环体为额外对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for ((index, value) in array.withIndex()) &#123;</span><br><span class="line">    println(&quot;the element at $index is $value&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="while与do…while"><a href="#while与do…while" class="headerlink" title="while与do…while"></a>while与do…while</h2><h3 id="while"><a href="#while" class="headerlink" title="while"></a>while</h3><p>满足条件即循环<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">while( 布尔表达式 ) &#123;</span><br><span class="line">  //循环内容</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="do…while"><a href="#do…while" class="headerlink" title="do…while"></a>do…while</h3><p>不满足条件也会执行一次，之后满足条件才循环。<br>与while的差别是：至少会执行一次。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">do &#123;</span><br><span class="line">    //代码语句</span><br><span class="line">&#125;while(布尔表达式);</span><br></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/26/kotlin-condition-control/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -857,7 +1142,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

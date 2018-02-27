@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="kotlin," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="概要Kotlin 有三种结构化跳转表达式：  return：默认从最直接包围它的函数或者匿名函数返回。 break：终止最直接包围它的循环。 continue：继续下一次最直接包围它的循环。  123456789101112131415fun print(num:Int)&amp;#123;    if(num==1) return // i 为 1 时 跳出函数    println(num)&amp;#125">
+<meta name="keywords" content="kotlin">
+<meta property="og:type" content="article">
+<meta property="og:title" content="kotlin-returns">
+<meta property="og:url" content="http://yoursite.com/2018/02/27/kotlin-returns/index.html">
+<meta property="og:site_name" content="从你的全世界璐过">
+<meta property="og:description" content="概要Kotlin 有三种结构化跳转表达式：  return：默认从最直接包围它的函数或者匿名函数返回。 break：终止最直接包围它的循环。 continue：继续下一次最直接包围它的循环。  123456789101112131415fun print(num:Int)&amp;#123;    if(num==1) return // i 为 1 时 跳出函数    println(num)&amp;#125">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-02-27T16:04:06.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="kotlin-returns">
+<meta name="twitter:description" content="概要Kotlin 有三种结构化跳转表达式：  return：默认从最直接包围它的函数或者匿名函数返回。 break：终止最直接包围它的循环。 continue：继续下一次最直接包围它的循环。  123456789101112131415fun print(num:Int)&amp;#123;    if(num==1) return // i 为 1 时 跳出函数    println(num)&amp;#125">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/02/27/kotlin-returns/"/>
+
+
+
+
+
+  <title>kotlin-returns | 从你的全世界璐过</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">从你的全世界璐过</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">记录技术点滴</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/27/kotlin-returns/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Koyoshiro">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="从你的全世界璐过">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">kotlin-returns</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-27T22:54:56+08:00">
+                2018-02-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h2><p>Kotlin 有三种结构化跳转表达式：</p>
+<ul>
+<li>return：默认从最直接包围它的函数或者匿名函数返回。</li>
+<li>break：终止最直接包围它的循环。</li>
+<li>continue：继续下一次最直接包围它的循环。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">fun print(num:Int)&#123;</span><br><span class="line">    if(num==1) return // i 为 1 时 跳出函数</span><br><span class="line">    println(num)</span><br><span class="line">&#125;</span><br><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">    for (i in 1..10) &#123;</span><br><span class="line">        if (i==3) continue  // i 为 3 时跳过当前循环，继续下一次循环</span><br><span class="line">        print(i)</span><br><span class="line">        if (i&gt;5) break   // i 为 6 时 跳出循环</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">//2</span><br><span class="line">//4</span><br><span class="line">//5</span><br><span class="line">//6</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="标签"><a href="#标签" class="headerlink" title="标签"></a>标签</h2><p>在 Kotlin 中任何表达式都可以用标签（label）来标记。<br>标签的格式为标识符后跟 @ 符号，例如：abc@、fooBar@都是有效的标签。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">loop@ for (i in 1..100) &#123;</span><br><span class="line">    // ……</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h2 id="Break-和-Continue-标签"><a href="#Break-和-Continue-标签" class="headerlink" title="Break 和 Continue 标签"></a>Break 和 Continue 标签</h2><p>标签限制的 break 跳转到刚好位于该标签指定的循环后面的执行点；<br>标签限制的 continue 继续标签指定的循环的下一次迭代。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">    loop@ for (i in 1..100) &#123;</span><br><span class="line">        for (j in 1..100) &#123;</span><br><span class="line">            if (i==2) break@loop    //当i=2时，结束loop循环</span><br><span class="line">            if (j==2) continue@loop //当j=2时，继续loop的下一次循环</span><br><span class="line">            println(&quot;now i is $i,j is $j&quot;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// now i is 1,j is 1</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="Return标签"><a href="#Return标签" class="headerlink" title="Return标签"></a>Return标签</h2><p>标签限制的 return 允许我们从外层函数返回，最重要的一个用途就是从 lambda 表达式中返回</p>
+<ul>
+<li><p>不使用标签的lambda 表达式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">fun foo() &#123;</span><br><span class="line">    listOf(1, 2, 3, 4, 5).forEach &#123;</span><br><span class="line">        if (it == 3) return // 非局部直接返回到 foo() 的调用者</span><br><span class="line">        print(it)</span><br><span class="line">    &#125;</span><br><span class="line">    println(&quot;this point is unreachable&quot;)</span><br><span class="line">&#125;</span><br><span class="line">//12</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用标签的lambda 表达式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">fun foo() &#123;</span><br><span class="line">    listOf(1, 2, 3, 4, 5).forEach lit@&#123;</span><br><span class="line">        if (it == 3) return@lit // 局部返回到该 lambda 表达式的调用者，即 forEach 循环</span><br><span class="line">        print(it)</span><br><span class="line">    &#125;</span><br><span class="line">    print(&quot; done with explicit label&quot;)</span><br><span class="line">&#125;</span><br><span class="line">//1245 done with explicit label</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用隐式标签的lambda 表达式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">fun foo() &#123;</span><br><span class="line">    listOf(1, 2, 3, 4, 5).forEach &#123;</span><br><span class="line">        if (it == 3) return@forEach // 局部返回到该 lambda 表达式的调用者，即 forEach 循环</span><br><span class="line">        print(it)</span><br><span class="line">    &#125;</span><br><span class="line">    print(&quot; done with implicit label&quot;)</span><br><span class="line">&#125;</span><br><span class="line">//1245 done with explicit label</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用匿名函数替代的lambda 表达式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">fun foo() &#123;</span><br><span class="line">    listOf(1, 2, 3, 4, 5).forEach(fun(value: Int) &#123;</span><br><span class="line">        if (value == 3) return  // 局部返回到匿名函数的调用者，即 forEach 循环</span><br><span class="line">        print(value)</span><br><span class="line">    &#125;)</span><br><span class="line">    print(&quot; done with anonymous function&quot;)</span><br><span class="line">&#125;</span><br><span class="line">//1245 done with anonymous function</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用标签直接返回值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">fun foo() &#123;</span><br><span class="line">    var a=run loop@&#123;</span><br><span class="line">        return@loop 333 </span><br><span class="line">    &#125;</span><br><span class="line">    print(a)</span><br><span class="line">&#125;</span><br><span class="line">//333</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/kotlin/" rel="tag"># kotlin</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/27/kotlin-loop-control/" rel="next" title="kotlin-loop-control">
+                <i class="fa fa-chevron-left"></i> kotlin-loop-control
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Koyoshiro</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概要"><span class="nav-number">1.</span> <span class="nav-text">概要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#标签"><span class="nav-number">2.</span> <span class="nav-text">标签</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Break-和-Continue-标签"><span class="nav-number">3.</span> <span class="nav-text">Break 和 Continue 标签</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Return标签"><span class="nav-number">4.</span> <span class="nav-text">Return标签</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Koyoshiro</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
