@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="kotlin," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="概要Kotlin 类包含：构造函数和初始化代码块、函数、属性、内部类、对象声明。  类定义1234class Runoob() &amp;#123; // 类名为 Runoob    fun foo() &amp;#123; print(&amp;quot;Foo&amp;quot;) &amp;#125; // 成员函数&amp;#125;class Empty //空类  构造函数Koltin 中的类可以有一个 主构造器，以及一个或多个次构">
+<meta name="keywords" content="kotlin">
+<meta property="og:type" content="article">
+<meta property="og:title" content="kotlin-class">
+<meta property="og:url" content="http://yoursite.com/2018/03/03/kotlin-class/index.html">
+<meta property="og:site_name" content="从你的全世界璐过">
+<meta property="og:description" content="概要Kotlin 类包含：构造函数和初始化代码块、函数、属性、内部类、对象声明。  类定义1234class Runoob() &amp;#123; // 类名为 Runoob    fun foo() &amp;#123; print(&amp;quot;Foo&amp;quot;) &amp;#125; // 成员函数&amp;#125;class Empty //空类  构造函数Koltin 中的类可以有一个 主构造器，以及一个或多个次构">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-03-03T16:06:56.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="kotlin-class">
+<meta name="twitter:description" content="概要Kotlin 类包含：构造函数和初始化代码块、函数、属性、内部类、对象声明。  类定义1234class Runoob() &amp;#123; // 类名为 Runoob    fun foo() &amp;#123; print(&amp;quot;Foo&amp;quot;) &amp;#125; // 成员函数&amp;#125;class Empty //空类  构造函数Koltin 中的类可以有一个 主构造器，以及一个或多个次构">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/03/kotlin-class/"/>
+
+
+
+
+
+  <title>kotlin-class | 从你的全世界璐过</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">从你的全世界璐过</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">记录技术点滴</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/03/kotlin-class/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Koyoshiro">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="从你的全世界璐过">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">kotlin-class</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-03T21:32:11+08:00">
+                2018-03-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h2><p>Kotlin 类包含：构造函数和初始化代码块、函数、属性、内部类、对象声明。</p>
+<hr>
+<h2 id="类定义"><a href="#类定义" class="headerlink" title="类定义"></a>类定义</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">class Runoob() &#123; // 类名为 Runoob</span><br><span class="line">    fun foo() &#123; print(&quot;Foo&quot;) &#125; // 成员函数</span><br><span class="line">&#125;</span><br><span class="line">class Empty //空类</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h2><p>Koltin 中的类可以有一个 主构造器，以及一个或多个次构造器</p>
+<h3 id="主构造器"><a href="#主构造器" class="headerlink" title="主构造器"></a>主构造器</h3><ul>
+<li><p>申明</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">class Person constructor(firstName: String) &#123;&#125; //主构造器是类头部的一部分，位于类名称之后</span><br><span class="line">class Person(firstName: String) &#123;&#125; //如果主构造器没有任何注解，也没有任何可见度修饰符，那么constructor关键字可以省略</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>实例</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">class Runoob  constructor(name: String) &#123;  // 类名为 Runoob</span><br><span class="line">    // 大括号内是类体构成</span><br><span class="line">    var url: String = &quot;http://www.runoob.com&quot;</span><br><span class="line">    var country: String = &quot;CN&quot;</span><br><span class="line">    var siteName = name</span><br><span class="line"></span><br><span class="line">    init &#123;</span><br><span class="line">        println(&quot;初始化网站名: $&#123;name&#125;&quot;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    fun printTest() &#123;</span><br><span class="line">        println(&quot;我是类的函数&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">    val runoob =  Runoob(&quot;菜鸟教程&quot;)</span><br><span class="line">    println(runoob.siteName)</span><br><span class="line">    println(runoob.url)</span><br><span class="line">    println(runoob.country)</span><br><span class="line">    runoob.printTest()</span><br><span class="line">&#125;</span><br><span class="line">// 初始化网站名: 菜鸟教程</span><br><span class="line">// 菜鸟教程</span><br><span class="line">// http://www.runoob.com</span><br><span class="line">// CN</span><br><span class="line">// 我是类的函数</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="次构造器"><a href="#次构造器" class="headerlink" title="次构造器"></a>次构造器</h3><p>二级构造函数，需要加前缀 constructor</p>
+<ul>
+<li><p>申明</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">class Person &#123; </span><br><span class="line">    constructor(parent: Person) &#123;</span><br><span class="line">        parent.children.add(this) </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">// 如果类的主构造器存在初始化函数init，则每个次构造器都需要实现初始化函数init；</span><br><span class="line">// 或直接或间接通过另一个次构造函数代理主构造函数。在同一个类中代理另一个构造函数使用this</span><br><span class="line">class Person(val name: String) &#123;</span><br><span class="line">    constructor (name: String, age:Int) : this(name) &#123;</span><br><span class="line">        // 初始化...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>实例</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">class Runoob  constructor(name: String) &#123;  // 类名为 Runoob</span><br><span class="line">    // 大括号内是类体构成</span><br><span class="line">    var url: String = &quot;http://www.runoob.com&quot;</span><br><span class="line">    var country: String = &quot;CN&quot;</span><br><span class="line">    var siteName = name</span><br><span class="line"></span><br><span class="line">    init &#123;</span><br><span class="line">        println(&quot;初始化网站名: $&#123;name&#125;&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">    // 次构造函数</span><br><span class="line">    constructor (name: String, alexa: Int) : this(name) &#123;</span><br><span class="line">        println(&quot;Alexa 排名 $alexa&quot;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    fun printTest() &#123;</span><br><span class="line">        println(&quot;我是类的函数&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">    val runoob =  Runoob(&quot;菜鸟教程&quot;, 10000)</span><br><span class="line">    println(runoob.siteName)</span><br><span class="line">    println(runoob.url)</span><br><span class="line">    println(runoob.country)</span><br><span class="line">    runoob.printTest()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 初始化网站名: 菜鸟教程</span><br><span class="line">// Alexa 排名 10000</span><br><span class="line">// 菜鸟教程</span><br><span class="line">// http://www.runoob.com</span><br><span class="line">// CN</span><br><span class="line">// 我是类的函数</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="类属性"><a href="#类属性" class="headerlink" title="类属性"></a>类属性</h2><ul>
+<li>类的属性可以用关键字 var 声明为可变的，否则使用只读关键字 val 声明为不可变。</li>
+<li><p>getter 和 setter 都是可选</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var allByDefault: Int? // 错误: 需要一个初始化语句, 默认实现了 getter 和 setter 方法</span><br><span class="line">var initialized = 1    // 类型为 Int, 默认实现了 getter 和 setter</span><br><span class="line">val simple: Int?       // 类型为 Int ，默认实现 getter ，但必须在构造函数中初始化</span><br><span class="line">val inferredType = 1   // 类型为 Int 类型,默认实现 getter</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>实例</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">class Person &#123;</span><br><span class="line">var lastName: String = &quot;zhang&quot;</span><br><span class="line">    get() = field.toUpperCase()   // 将变量赋值后转换为大写</span><br><span class="line">    set</span><br><span class="line"></span><br><span class="line">var no: Int = 100</span><br><span class="line">    get() = field                // field 关键词只能用于属性的访问器</span><br><span class="line">    set(value) &#123;</span><br><span class="line">        if (value &lt; 10) &#123;       // 如果传入的值小于 10 返回该值</span><br><span class="line">            field = value</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            field = -1         // 如果传入的值大于等于 10 返回 -1</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">var heiht: Float = 145.4f</span><br><span class="line">    private set</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 测试</span><br><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">    var person: Person = Person()</span><br><span class="line"></span><br><span class="line">    person.lastName = &quot;wang&quot;</span><br><span class="line"></span><br><span class="line">    println(&quot;lastName:$&#123;person.lastName&#125;&quot;)</span><br><span class="line"></span><br><span class="line">    person.no = 9</span><br><span class="line">    println(&quot;no:$&#123;person.no&#125;&quot;)</span><br><span class="line"></span><br><span class="line">    person.no = 20</span><br><span class="line">    println(&quot;no:$&#123;person.no&#125;&quot;)</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">// lastName:WANG</span><br><span class="line">// no:9</span><br><span class="line">// no:-1</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<hr>
+<h2 id="修饰符"><a href="#修饰符" class="headerlink" title="修饰符"></a>修饰符</h2><ul>
+<li>classModifier: 类属性修饰符，标示类本身特性。<ul>
+<li>abstract：抽象类  </li>
+<li>final：类不可继承，默认属性</li>
+<li>enum：枚举类</li>
+<li>open：类可继承，类默认是final的</li>
+<li>annotation：注解类</li>
+</ul>
+</li>
+<li>accessModifier: 访问权限修饰符<ul>
+<li>private：仅在同一个文件中可见</li>
+<li>protected：同一个文件中或子类可见</li>
+<li>public：所有调用的地方都可见</li>
+<li>internal：同一个模块中可见</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="抽象类"><a href="#抽象类" class="headerlink" title="抽象类"></a>抽象类</h2><p>类本身，或类中的部分成员，都可以声明为abstract的。抽象成员在类中不存在具体的实现。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">open class Base &#123;</span><br><span class="line">    open fun f() &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">abstract class Derived : Base() &#123;</span><br><span class="line">    override abstract fun f()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h2 id="嵌套类"><a href="#嵌套类" class="headerlink" title="嵌套类"></a>嵌套类</h2><p>把类嵌套在其他类中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">class Outer &#123;                  // 外部类</span><br><span class="line">    private val bar: Int = 1</span><br><span class="line">    class Nested &#123;             // 嵌套类</span><br><span class="line">        fun foo() = 2</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">    val demo = Outer.Nested().foo() // 调用格式：外部类.嵌套类.嵌套类方法/属性</span><br><span class="line">    println(demo)    // == 2</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h2 id="内部类"><a href="#内部类" class="headerlink" title="内部类"></a>内部类</h2><p>内部类会带有一个对外部类的对象的引用，所以内部类可以访问外部类成员属性和成员函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">class Outer &#123;</span><br><span class="line">    private val bar: Int = 1</span><br><span class="line">    var v = &quot;成员属性&quot;</span><br><span class="line">    /**嵌套内部类**/</span><br><span class="line">    inner class Inner &#123;</span><br><span class="line">        fun foo() = bar  // 访问外部类成员</span><br><span class="line">        fun innerTest() &#123;</span><br><span class="line">            var o = this@Outer //使用‘this@+外部类名’ 访问来自外部作用域的 this</span><br><span class="line">            println(&quot;内部类可以引用外部类的成员，例如：&quot; + o.v)  // 获取外部类的成员变量</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">    val demo = Outer().Inner().foo()</span><br><span class="line">    println(demo) //   1</span><br><span class="line">    val demo2 = Outer().Inner().innerTest()   </span><br><span class="line">    println(demo2)   // 内部类可以引用外部类的成员，例如：成员属性</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h2 id="匿名内部类"><a href="#匿名内部类" class="headerlink" title="匿名内部类"></a>匿名内部类</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">class Test &#123;</span><br><span class="line">    var v = &quot;成员属性&quot;</span><br><span class="line"></span><br><span class="line">    fun setInterFace(test: TestInterFace) &#123;</span><br><span class="line">        test.test()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 定义接口</span><br><span class="line"> */</span><br><span class="line">interface TestInterFace &#123;</span><br><span class="line">    fun test()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">    var test = Test()</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 采用对象表达式来创建接口对象，即匿名内部类的实例。</span><br><span class="line">     */</span><br><span class="line">    test.setInterFace(object : TestInterFace &#123;</span><br><span class="line">        override fun test() &#123;</span><br><span class="line">            println(&quot;对象表达式创建匿名内部类的实例&quot;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/kotlin/" rel="tag"># kotlin</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/27/kotlin-returns/" rel="next" title="kotlin-returns">
+                <i class="fa fa-chevron-left"></i> kotlin-returns
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Koyoshiro</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概要"><span class="nav-number">1.</span> <span class="nav-text">概要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类定义"><span class="nav-number">2.</span> <span class="nav-text">类定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构造函数"><span class="nav-number">3.</span> <span class="nav-text">构造函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#主构造器"><span class="nav-number">3.1.</span> <span class="nav-text">主构造器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#次构造器"><span class="nav-number">3.2.</span> <span class="nav-text">次构造器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类属性"><span class="nav-number">4.</span> <span class="nav-text">类属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修饰符"><span class="nav-number">5.</span> <span class="nav-text">修饰符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#抽象类"><span class="nav-number">6.</span> <span class="nav-text">抽象类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#嵌套类"><span class="nav-number">7.</span> <span class="nav-text">嵌套类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内部类"><span class="nav-number">8.</span> <span class="nav-text">内部类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#匿名内部类"><span class="nav-number">9.</span> <span class="nav-text">匿名内部类</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Koyoshiro</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
