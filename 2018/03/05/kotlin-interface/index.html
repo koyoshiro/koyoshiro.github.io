@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="概要条件控制：if、when  if 作为语句，包含一个布尔表达式和一条或多条语句 1234567891011// 不使用 else var max = a if (a &amp;lt; b) max = b// 使用 else var max: Intif (a &amp;gt; b) &amp;#123;    max = a&amp;#125; else &amp;#123;    max = b&amp;#125;  作为表达式，即它会">
+<meta name="description" content="概要使用 interface 关键字定义接口，包含方法函数和属性  方法函数可以被默认实现 属性只能是抽象的，不允许初始化值，接口不会保存属性值，实现接口时，必须重写属性12345678910111213141516171819202122interface MyInterface &amp;#123;    fun bar()    fun foo() &amp;#123;        // 可选的方法体">
 <meta name="keywords" content="kotlin">
 <meta property="og:type" content="article">
-<meta property="og:title" content="kotlin-condition-control">
-<meta property="og:url" content="http://yoursite.com/2018/02/26/kotlin-condition-control/index.html">
+<meta property="og:title" content="kotlin-interface">
+<meta property="og:url" content="http://yoursite.com/2018/03/05/kotlin-interface/index.html">
 <meta property="og:site_name" content="从你的全世界璐过">
-<meta property="og:description" content="概要条件控制：if、when  if 作为语句，包含一个布尔表达式和一条或多条语句 1234567891011// 不使用 else var max = a if (a &amp;lt; b) max = b// 使用 else var max: Intif (a &amp;gt; b) &amp;#123;    max = a&amp;#125; else &amp;#123;    max = b&amp;#125;  作为表达式，即它会">
+<meta property="og:description" content="概要使用 interface 关键字定义接口，包含方法函数和属性  方法函数可以被默认实现 属性只能是抽象的，不允许初始化值，接口不会保存属性值，实现接口时，必须重写属性12345678910111213141516171819202122interface MyInterface &amp;#123;    fun bar()    fun foo() &amp;#123;        // 可选的方法体">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-27T15:01:22.000Z">
+<meta property="og:updated_time" content="2018-03-05T07:01:16.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="kotlin-condition-control">
-<meta name="twitter:description" content="概要条件控制：if、when  if 作为语句，包含一个布尔表达式和一条或多条语句 1234567891011// 不使用 else var max = a if (a &amp;lt; b) max = b// 使用 else var max: Intif (a &amp;gt; b) &amp;#123;    max = a&amp;#125; else &amp;#123;    max = b&amp;#125;  作为表达式，即它会">
+<meta name="twitter:title" content="kotlin-interface">
+<meta name="twitter:description" content="概要使用 interface 关键字定义接口，包含方法函数和属性  方法函数可以被默认实现 属性只能是抽象的，不允许初始化值，接口不会保存属性值，实现接口时，必须重写属性12345678910111213141516171819202122interface MyInterface &amp;#123;    fun bar()    fun foo() &amp;#123;        // 可选的方法体">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/02/26/kotlin-condition-control/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/03/05/kotlin-interface/"/>
 
 
 
 
 
-  <title>kotlin-condition-control | 从你的全世界璐过</title>
+  <title>kotlin-interface | 从你的全世界璐过</title>
   
 
 
@@ -233,7 +233,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/26/kotlin-condition-control/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/05/kotlin-interface/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Koyoshiro">
@@ -250,7 +250,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">kotlin-condition-control</h1>
+          <h1 class="post-title" itemprop="name headline">kotlin-interface</h1>
         
 
         <div class="post-meta">
@@ -262,8 +262,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-26T22:53:49+08:00">
-                2018-02-26
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-05T14:14:04+08:00">
+                2018-03-05
               </time>
             
 
@@ -300,38 +300,16 @@
       
 
       
-        <h2 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h2><p>条件控制：if、when</p>
-<hr>
-<h2 id="if"><a href="#if" class="headerlink" title="if"></a>if</h2><ul>
-<li><p>作为语句，包含一个布尔表达式和一条或多条语句</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// 不使用 else </span><br><span class="line">var max = a </span><br><span class="line">if (a &lt; b) max = b</span><br><span class="line"></span><br><span class="line">// 使用 else </span><br><span class="line">var max: Int</span><br><span class="line">if (a &gt; b) &#123;</span><br><span class="line">    max = a</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    max = b</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>作为表达式，即它会返回一个值</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">val max = if (a &gt; b) a else b   //表达式返回a或者b之间的较大者</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<hr>
-<h2 id="when"><a href="#when" class="headerlink" title="when"></a>when</h2><ul>
-<li><p>类switch操作符</p>
+        <h2 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h2><p>使用 interface 关键字定义接口，包含方法函数和属性</p>
 <ul>
-<li><p>常规用法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">when (x) &#123;</span><br><span class="line">    1 -&gt; print(&quot;x == 1&quot;)</span><br><span class="line">    2 -&gt; print(&quot;x == 2&quot;)</span><br><span class="line">    else -&gt; &#123; // else 同 switch 的 default。如果其他分支都不满足条件将会求值 else 分支</span><br><span class="line">        print(&quot;x 不是 1 ，也不是 2&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>很多分支需要用相同的方式处理，则可以把多个分支条件放在一起，用逗号分隔</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">when (x) &#123;</span><br><span class="line">    0, 1 -&gt; print(&quot;x == 0 or x == 1&quot;)</span><br><span class="line">    else -&gt; print(&quot;otherwise&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>使用 in（在）或!in（不在） 运算符来检测某个数字是否在指定区间或集合内，区间格式为 x..y</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">when (x) &#123;</span><br><span class="line">    in 1..10 -&gt; print(&quot;x is in the range&quot;)</span><br><span class="line">    in validNumbers -&gt; print(&quot;x is valid&quot;)</span><br><span class="line">    !in 10..20 -&gt; print(&quot;x is outside the range&quot;)</span><br><span class="line">    else -&gt; print(&quot;none of the above&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>检测一个值是（is）或者不是（!is）一个特定类型的值</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">when(x) &#123;</span><br><span class="line">    is String -&gt; x.startsWith(&quot;prefix&quot;)</span><br><span class="line">    else -&gt; false</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<li>方法函数可以被默认实现</li>
+<li>属性只能是抽象的，不允许初始化值，接口不会保存属性值，实现接口时，必须重写属性<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">interface MyInterface &#123;</span><br><span class="line">    fun bar()</span><br><span class="line">    fun foo() &#123;</span><br><span class="line">        // 可选的方法体</span><br><span class="line">        println(&quot;foo&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">class Child : MyInterface &#123;</span><br><span class="line">    override fun bar() &#123;</span><br><span class="line">        // 方法体</span><br><span class="line">        println(&quot;bar&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">    val c =  Child()</span><br><span class="line">    c.foo();</span><br><span class="line">    c.bar();</span><br><span class="line"> </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// foo</span><br><span class="line">// bar</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-</li>
-<li><p>取代 if-else if链。如果不提供参数，所有的分支条件都是简单的布尔表达式，而当一个分支的条件为真时则执行该分支</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">when &#123; //when后未提供参数</span><br><span class="line">    x.isOdd() -&gt; print(&quot;x is odd&quot;)</span><br><span class="line">    x.isEven() -&gt; print(&quot;x is even&quot;)</span><br><span class="line">    else -&gt; print(&quot;x is funny&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ul>
-
+<hr>
+<h2 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">interface MyInterface &#123;</span><br><span class="line">    var name:String //name 属性, 抽象的</span><br><span class="line">    fun bar()</span><br><span class="line">    fun foo() &#123;</span><br><span class="line">        // 可选的方法体</span><br><span class="line">        println(&quot;foo&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">class Child : MyInterface &#123;</span><br><span class="line">    override var name: String = &quot;runoob&quot; //重载属性</span><br><span class="line">    override fun bar() &#123;</span><br><span class="line">        // 方法体</span><br><span class="line">        println(&quot;bar&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">    val c =  Child()</span><br><span class="line">    c.foo();</span><br><span class="line">    c.bar();</span><br><span class="line">    println(c.name)</span><br><span class="line"> </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// foo</span><br><span class="line">// bar</span><br><span class="line">// runoob</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">interface A &#123;</span><br><span class="line">    fun foo() &#123; print(&quot;A&quot;) &#125;   // 已实现</span><br><span class="line">    fun bar()                  // 未实现，没有方法体，是抽象的</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">interface B &#123;</span><br><span class="line">    fun foo() &#123; print(&quot;B&quot;) &#125;   // 已实现</span><br><span class="line">    fun bar() &#123; print(&quot;bar&quot;) &#125; // 已实现</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">class C : A &#123;</span><br><span class="line">    override fun bar() &#123; print(&quot;bar&quot;) &#125;   // 重写</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">class D : A, B &#123;</span><br><span class="line">    override fun foo() &#123;</span><br><span class="line">        super&lt;A&gt;.foo()</span><br><span class="line">        super&lt;B&gt;.foo()</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    override fun bar() &#123;</span><br><span class="line">        super&lt;B&gt;.bar()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">    val d =  D()</span><br><span class="line">    d.foo();</span><br><span class="line">    d.bar();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// ABbar</span><br></pre></td></tr></table></figure>
       
     </div>
     
@@ -361,8 +339,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/02/22/World/" rel="next" title="Hello World">
-                <i class="fa fa-chevron-left"></i> Hello World
+              <a href="/2018/03/04/kotlin-extend/" rel="next" title="kotlin-extend">
+                <i class="fa fa-chevron-left"></i> kotlin-extend
               </a>
             
           </div>
@@ -370,10 +348,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/02/27/kotlin-loop-control/" rel="prev" title="kotlin-loop-control">
-                kotlin-loop-control <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -496,7 +470,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概要"><span class="nav-number">1.</span> <span class="nav-text">概要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#if"><span class="nav-number">2.</span> <span class="nav-text">if</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#when"><span class="nav-number">3.</span> <span class="nav-text">when</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概要"><span class="nav-number">1.</span> <span class="nav-text">概要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#属性"><span class="nav-number">2.</span> <span class="nav-text">属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数"><span class="nav-number">3.</span> <span class="nav-text">函数</span></a></li></ol></div>
             
 
           </div>
