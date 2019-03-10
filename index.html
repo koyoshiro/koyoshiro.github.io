@@ -239,6 +239,279 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/11/React-Diff/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Koyoshiro">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="从你的全世界璐过">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/11/React-Diff/" itemprop="url">React Diff&Fiber understanding</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-11T00:01:49+08:00">
+                2019-03-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>React 已从15升级为了16，其中Diff算法的优化和改进是最大的特性。<br>文章将从React 15的Diff算法说起，延展到React Fiber。</p>
+<h1 id="React-Diff"><a href="#React-Diff" class="headerlink" title="React Diff"></a>React Diff</h1><blockquote>
+<p><a href="https://grfia.dlsi.ua.es/ml/algorithms/references/editsurvey_bille.pdf" target="_blank" rel="noopener">传统 diff 算法</a> 通过循环递归对节点进行依次对比。</p>
+</blockquote>
+<p>缺点显而易见：效率低下，算法复杂度达到 O(n^3)。<br>React Diff算法将 O(n^3) 复杂度的问题转换成 O(n) 复杂度的问题。</p>
+<h2 id="Diff-策略"><a href="#Diff-策略" class="headerlink" title="Diff 策略"></a>Diff 策略</h2><p><img src="https://image.ibb.co/hExx28/react_diff.png" alt=""></p>
+<ol>
+<li>Web UI 中 DOM 节点跨层级的移动操作特别少，可以忽略不计。</li>
+<li>拥有相同类的两个组件将会生成相似的树形结构，拥有不同类的两个组件将会生成不同的树形结构。</li>
+<li>对于同一层级的一组子节点，它们可以通过唯一 id 进行区分。</li>
+</ol>
+<p>基于以上三个前提策略，React 分别对 <strong>tree diff</strong>、<strong>component diff</strong> 以及 <strong>element diff</strong> 进行算法优化。</p>
+<h3 id="Tree-Diff"><a href="#Tree-Diff" class="headerlink" title="Tree Diff"></a>Tree Diff</h3><p><img src="https://image.ibb.co/dkHTaT/0c08dbb6b1e0745780de4d208ad51d34_hd.jpg" alt=""></p>
+<p>基于策略1，React 对树的算法进行了简洁明了的优化，即对树进行分层比较，两棵树只会对同一层次的节点进行比较。</p>
+<p>由于 DOM 节点跨层级的移动操作少到可以忽略不计，针对这一现象，React 通过 updateDepth 对 Virtual DOM 树进行层级控制，只会对相同颜色方框内的 DOM 节点进行比较，即同一个父节点下的所有子节点。当发现节点已经不存在，则该节点及其子节点会被完全删除掉，不会用于进一步的比较。这样只需要对树进行一次遍历，便能完成整个 DOM 树的比较。</p>
+<h3 id="Component-Diff"><a href="#Component-Diff" class="headerlink" title="Component Diff"></a>Component Diff</h3><p>React 是基于组件构建应用的，对于组件间的比较所采取的策略也是简洁高效。</p>
+<ul>
+<li><p>如果是同一类型的组件，按照原策略继续比较 virtual DOM tree。</p>
+</li>
+<li><p>如果不是，则将该组件判断为 dirty component，从而替换整个组件下的所有子节点。</p>
+</li>
+<li><p>对于同一类型的组件，有可能其 Virtual DOM 没有任何变化，如果能够确切的知道这点那可以节省大量的 diff 运算时间，因此 React 允许用户通过 <code>shouldComponentUpdate()</code> 来判断该组件是否需要进行 diff。</p>
+</li>
+</ul>
+<p><img src="https://image.ibb.co/bOuwUo/52654992aba15fc90e2dac8b2387d0c4_hd.jpg" alt=""></p>
+<p>如上图，当 component D 改变为 component G 时，即使这两个 component 结构相似，一旦 React 判断 D 和 G 是不同类型的组件，就不会比较二者的结构，而是直接删除 component D，重新创建 component G 以及其子节点。</p>
+<p>虽然当两个 component 是不同类型但结构相似时，React diff 会影响性能，但正如 React 官方博客所言：</p>
+<blockquote>
+<p>不同类型的 component 是很少存在相似 DOM tree 的机会</p>
+</blockquote>
+<p>因此这种极端因素很难在实际开发过程中造成重大影响。</p>
+<h3 id="Element-Diff"><a href="#Element-Diff" class="headerlink" title="Element Diff"></a>Element Diff</h3><p>当节点处于同一层级时，React diff 提供了三种节点操作，分别为：<code>INSERT_MARKUP（插入）</code>、<code>MOVE_EXISTING（移动）</code>和 <code>REMOVE_NODE（删除）</code>。</p>
+<ul>
+<li><p><code>INSERT_MARKUP</code>，新的 component 类型不在老集合里， 即是全新的节点，需要对新节点执行插入操作。</p>
+</li>
+<li><p><code>MOVE_EXISTING</code>，在老集合有新 component 类型，且 element 是可更新的类型，<code>generateComponentChildren</code> 已调用 <code>receiveComponent</code>，这种情况下 prevChild=nextChild，就需要做移动操作，可以复用以前的 DOM 节点。</p>
+</li>
+<li><p><code>REMOVE_NODE</code>，老 component 类型，在新集合里也有，但对应的 element 不同则不能直接复用和更新，需要执行删除操作，或者老 component 不在新集合里的，也需要执行删除操作。</p>
+</li>
+</ul>
+<p><img src="https://image.ibb.co/btprvT/7541670c089b84c59b84e9438e92a8e9_hd.jpg" alt=""></p>
+<p>如上图，老集合中包含节点：A、B、C、D，更新后的新集合中包含节点：B、A、D、C，此时新老集合进行 diff 差异化对比。</p>
+<p>发现 B != A，则创建并插入 B 至新集合，删除老集合 A；以此类推，创建并插入 A、D 和 C，删除 B、C 和 D。</p>
+<p><strong>可见问题：</strong></p>
+<p>我们可以发现这类操作繁琐冗余，因为这些都是相同的节点，但由于位置发生变化，导致需要进行繁杂低效的删除、创建操作，其实只要对这些节点进行位置移动即可。</p>
+<p><strong>优化方式：</strong></p>
+<p>针对这一现象，React 提出优化策略：</p>
+<blockquote>
+<p>允许开发者对同一层级的同组子节点，添加唯一 key 进行区分</p>
+</blockquote>
+<p>虽然只是小小的改动，性能上却发生了翻天覆地的变化。</p>
+<p><img src="https://image.ibb.co/iRb1Uo/c0aa97d996de5e7f1069e97ca3accfeb_hd.jpg" alt=""></p>
+<p>新老集合所包含的节点，如上图所示，新老集合进行 diff 差异化对比，通过 key 发现新老集合中的节点都是相同的节点，因此无需进行节点删除和创建，只需要将老集合中节点的位置进行移动，更新为新集合中节点的位置，此时 React 给出的 diff 结果为：B、D 不做任何操作，A、C 进行移动操作即可。</p>
+<p><strong>执行逻辑：</strong></p>
+<ol>
+<li>对新集合的节点进行循环遍历，<code>for (name in nextChildren)</code>通过唯一 key 可以判断新老集合中是否存在相同的节点；</li>
+<li><code>if (prevChild === nextChild)</code>如果存在相同节点，则进行移动操作</li>
+<li>在移动前需要将当前节点在老集合中的位置与 lastIndex 进行比较，<code>if (child.\_mountIndex &lt; lastIndex)</code>，则进行节点移动操作，否则不执行该操作。<blockquote>
+<p>这是一种顺序优化手段，lastIndex 一直在更新，表示访问过的节点在老集合中最右的位置（即最大的位置），如果新集合中当前访问的节点比 lastIndex 大，说明当前访问节点在老集合中就比上一个节点位置靠后，则该节点不会影响其他节点的位置，因此不用添加到差异队列中，即不执行移动操作，只有当访问的节点比 lastIndex 小时，才需要进行移动操作。</p>
+</blockquote>
+</li>
+</ol>
+<h1 id="React-Fiber"><a href="#React-Fiber" class="headerlink" title="React Fiber"></a>React Fiber</h1><h2 id="原由"><a href="#原由" class="headerlink" title="原由"></a>原由</h2><p>众所周知，JavaScript在浏览器的主线程上运行，通常样式计算、布局以及页面绘制会一起运行。如果JavaScript运行时间过长，就会阻塞这些其他工作，可能导致掉帧。</p>
+<p>React运行时存在3种实例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">DOM 真实DOM节点</span><br><span class="line">-------</span><br><span class="line">Instances React维护的Virtual DOM Tree node</span><br><span class="line">-------</span><br><span class="line">Elements 描述UI长什么样子（type, props）</span><br></pre></td></tr></table></figure>
+<p>Instances是根据Elements创建的，对组件及DOM节点的抽象表示，Virtual DOM Tree维护了组件状态以及组件与DOM树的关系</p>
+<p>在首次渲染过程中构建出Virtual DOM Tree，后续需要更新时（setState()），diff Virtual DOM Tree得到DOM change，并把DOM change应用（patch）到DOM树。</p>
+<p>自顶向下的递归mount/update，无法中断（持续占用主线程），这样主线程上的布局、动画等周期性任务以及交互响应就无法立即得到处理，影响体验。</p>
+<p>同时也造成了React在一些响应体验要求较高的场景不适用，比如动画，布局和手势等。</p>
+<p>由此诞生了Fiber。</p>
+<h2 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h2><p>Fiber解决这个问题的思路是增量更新。</p>
+<blockquote>
+<p>把渲染/更新过程（递归diff）拆分成一系列小任务，每次检查树上的一小部分，做完看是否还有时间继续下一个任务，有的话继续，没有的话把自己挂起，主线程不忙的时候再继续。</p>
+</blockquote>
+<h3 id="Fiber-Tree"><a href="#Fiber-Tree" class="headerlink" title="Fiber Tree"></a>Fiber Tree</h3><p>增量更新需要更多的上下文信息，之前的Virtual DOM Tree显然难以满足，所以扩展出了fiber tree（即Fiber上下文的Virtual DOM Tree），更新过程就是根据输入数据以及现有的fiber tree构造出新的fiber tree（workInProgress tree）。因此，Instance层新增了这些实例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">DOM</span><br><span class="line">    真实DOM节点</span><br><span class="line">-------</span><br><span class="line">effect</span><br><span class="line">    每个workInProgress tree节点上都有一个effect list</span><br><span class="line">    用来存放diff结果</span><br><span class="line">    当前节点更新完毕会向上merge effect list（queue收集diff结果）</span><br><span class="line">- - - -</span><br><span class="line">workInProgress</span><br><span class="line">    workInProgress tree是reconcile过程中从fiber tree建立的当前进度快照，用于断点恢复</span><br><span class="line">- - - -</span><br><span class="line">fiber</span><br><span class="line">    fiber tree与Virtual DOM Tree类似，用来描述增量更新所需的上下文信息</span><br><span class="line">-------</span><br><span class="line">Elements</span><br><span class="line">    描述UI长什么样子（type, props）</span><br></pre></td></tr></table></figure>
+<p>fiber tree实际上是个单链表（Singly Linked List）树结构,结构如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">stateNode, // 状态节点</span><br><span class="line">child,  // 子节点</span><br><span class="line">return,  // 表示当前节点处理完毕后，应该向谁提交自己的成果（effect list）</span><br><span class="line">sibling,    // 兄弟节点</span><br><span class="line">...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="拆分"><a href="#拆分" class="headerlink" title="拆分"></a>拆分</h3><p>把渲染/更新过程分为2个阶段：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1. diff ~ render/reconciliation</span><br><span class="line">2. patch ~ commit</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>diff阶段(可中断)的实际工作是对比prevInstance和nextInstance的状态，找出差异及其对应的DOM change。</p>
+<p>  diff本质上是一些计算（遍历、比较），是可拆分的（算一半待会儿接着算）</p>
+</li>
+<li><p>patch阶段（不可中断）把本次更新中的所有DOM change应用到DOM树，是一连串的DOM操作。</p>
+<p>  该阶段由于两方面的原因并不会进行拆分</p>
+<ol>
+<li>可能造成DOM实际状态与维护的内部状态不一致，另外还会影响体验。</li>
+<li>DOM更新的耗时比起diff及生命周期函数耗时可忽略不计</li>
+</ol>
+</li>
+</ul>
+<h4 id="render-reconciliation"><a href="#render-reconciliation" class="headerlink" title="render/reconciliation"></a>render/reconciliation</h4><p>以fiber tree为蓝本，把每个fiber作为一个工作单元，自顶向下逐节点构造workInProgress tree（构建中的新fiber tree）</p>
+<p>具体过程如下：</p>
+<ol>
+<li><p>如果当前节点不需要更新，直接把子节点clone过来，跳到步骤5；需要更新则打上tag</p>
+</li>
+<li><p>更新当前节点状态（props, state, context等）</p>
+</li>
+<li><p>调用shouldComponentUpdate()，false的话，跳到步骤5</p>
+</li>
+<li><p>调用render()获得新的子节点，并为子节点创建fiber（创建过程会尽量复用现有fiber，子节点增删也发生在这里）</p>
+</li>
+<li><p>如果没有产生child fiber，该工作单元结束，把effect list归并到return，并把当前节点的sibling作为下一个工作单元；否则把child作为下一个工作单元</p>
+</li>
+<li><p>如果没有剩余可用时间了，等到下一次主线程空闲时才开始下一个工作单元；否则，立即开始做</p>
+</li>
+<li><p>如果没有下一个工作单元了（回到了workInProgress tree的根节点），第1阶段结束，进入pendingCommit状态</p>
+</li>
+</ol>
+<p>实际上是1-6的工作循环，7是出口，工作循环每次只做一件事，做完看要不要喘口气。</p>
+<p>通过每个节点更新结束时向上归并effect list来收集任务结果，reconciliation结束后，根节点的effect list里记录了包括DOM change在内的所有side effect</p>
+<p>所以，构建workInProgress tree的过程就是diff的过程，通过<code>requestIdleCallback</code>来调度执行一组任务，每完成一个任务后回来看看有没有插队的（更紧急的），每完成一组任务，把时间控制权交还给主线程，直到下一次<code>requestIdleCallback</code>回调再继续构建workInProgress tree</p>
+<h4 id="commit"><a href="#commit" class="headerlink" title="commit"></a>commit</h4><p>该阶段是一口气直接做完（同步执行），不被控制和中止，这个阶段的实际工作量是比较大的，所以尽量不要在后3个生命周期函数里干重活儿</p>
+<ul>
+<li>处理effect list（包括3种处理：更新DOM树、调用组件生命周期函数以及更新ref等内部状态）</li>
+<li>该阶段结束时，所有更新都commit到DOM树上了。</li>
+</ul>
+<h3 id="调度任务"><a href="#调度任务" class="headerlink" title="调度任务"></a>调度任务</h3><p><code>requestIdleCallback</code>：调度方法，作用类似于通知主线程在不忙的时候告知我，我有几个不太着急的事情要做。</p>
+<p>但只是希望通过调度做到流畅体验，并不能绝对保证流畅（具体还需看需渲染内容的耗时）</p>
+<p>调度任务具体分为：</p>
+<ul>
+<li>工作循环：每个工作单元结束检查是否还有时间做下一个，没时间了就先“挂起”</li>
+<li>优先级机制：用来处理突发事件与优化次序，用来动态调整任务调度，是工作循环的辅助机制，最先做最重要的事情</li>
+</ul>
+<p>调度最重要的两种状态：</p>
+<ul>
+<li>中断：检查当前正在处理的工作单元，保存当前成果（firstEffect,lastEffect），修改tag标记一下，迅速收尾并再开一个requestIdleCallback，下次有机会再做。</li>
+<li>断点恢复：下次再处理到该工作单元时，看tag是被打断的任务，接着做未完成的部分或者重做。</li>
+</ul>
+<p>无论是时间用尽“自然”中断，还是被高优任务粗暴打断，对中断机制来说都一样。</p>
+<h3 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h3><p>生命周期函数被分为2个阶段<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// render/reconciliation阶段</span><br><span class="line">componentWillMount</span><br><span class="line">componentWillReceiveProps</span><br><span class="line">shouldComponentUpdate</span><br><span class="line">componentWillUpdate</span><br><span class="line"></span><br><span class="line">// commit阶段</span><br><span class="line">componentDidMount</span><br><span class="line">componentDidUpdate</span><br><span class="line">componentWillUnmount</span><br></pre></td></tr></table></figure></p>
+<p>render/reconciliation阶段的生命周期函数可能会被多次调用，默认以低优先级执行，被高优先级任务打断的话，稍后<strong>重新执行</strong>。</p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><h3 id="关键特性"><a href="#关键特性" class="headerlink" title="关键特性"></a>关键特性</h3><ul>
+<li>增量渲染（把渲染任务拆分成块，匀到多帧）</li>
+<li>更新时能够暂停，终止，复用渲染任务</li>
+<li>给不同类型的更新赋予优先级</li>
+<li>并发方面新的基础能力</li>
+</ul>
+<p>增量渲染用来解决掉帧的问题，渲染任务拆分之后，每次只做一小段，做完一段就把时间控制权交还给主线程，而不像之前长时间占用。这种策略叫做cooperative scheduling（合作式调度），是操作系统的3种任务调度策略之一。</p>
+<h3 id="源码变化"><a href="#源码变化" class="headerlink" title="源码变化"></a>源码变化</h3><p>React 16 在源码结构上产生了很大变化</p>
+<ul>
+<li><code>mountComponent/updateComponent()</code>被拆分重组成了<code>beginWork()</code>,<code>completeWork()</code>,<code>commitWork()</code></li>
+<li>在Fiber体系下DOM节点抽象用ReactDOMFiberComponent表示,ReactDOMComponent被取消；组件用ReactFiberClassComponent表示，ReactCompositeComponent被替代。</li>
+<li>Fiber体系的核心机制是负责任务调度的ReactFiberScheduler，相当于之前的ReactReconciler</li>
+<li>Virtual DOM Tree变成了Fiber Tree，由自上而下的简单树结构变成了基于单链表的树结构，维护的节点关系更多一些。</li>
+</ul>
+<p>Virtual DOM Tree 与 Fiber Tree对比图</p>
+<p><img src="http://www.ayqy.net/cms/wordpress/wp-content/uploads/2018/01/fiber-tree.png" alt="image"></p>
+<h3 id="演进"><a href="#演进" class="headerlink" title="演进"></a>演进</h3><p>从React 15 到 React 16 ，对于DOM节点的渲染实现了3个方面的优化：</p>
+<ul>
+<li>React通过virtual DOM减少了实际改动真实DOM的开销</li>
+<li>通过Diff算法减少了实际渲染的频次与变动范围</li>
+<li>通过Fiber重构来改变这种不可控的现状，进一步提升交互体验，在用户态单线程条件下实现类似多进程的系统级别调度。</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/24/深入浅出JavaScript异步编程/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1935,182 +2208,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/03/kotlin-class/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Koyoshiro">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="从你的全世界璐过">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/03/03/kotlin-class/" itemprop="url">kotlin-class</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-03T21:32:11+08:00">
-                2018-03-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h2><p>Kotlin 类包含：构造函数和初始化代码块、函数、属性、内部类、对象声明。</p>
-<hr>
-<h2 id="类定义"><a href="#类定义" class="headerlink" title="类定义"></a>类定义</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">class Runoob() &#123; // 类名为 Runoob</span><br><span class="line">    fun foo() &#123; print(&quot;Foo&quot;) &#125; // 成员函数</span><br><span class="line">&#125;</span><br><span class="line">class Empty //空类</span><br></pre></td></tr></table></figure>
-<hr>
-<h2 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h2><p>Koltin 中的类可以有一个 主构造器，以及一个或多个次构造器</p>
-<h3 id="主构造器"><a href="#主构造器" class="headerlink" title="主构造器"></a>主构造器</h3><ul>
-<li><p>申明</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">class Person constructor(firstName: String) &#123;&#125; //主构造器是类头部的一部分，位于类名称之后</span><br><span class="line">class Person(firstName: String) &#123;&#125; //如果主构造器没有任何注解，也没有任何可见度修饰符，那么constructor关键字可以省略</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>实例</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">class Runoob  constructor(name: String) &#123;  // 类名为 Runoob</span><br><span class="line">    // 大括号内是类体构成</span><br><span class="line">    var url: String = &quot;http://www.runoob.com&quot;</span><br><span class="line">    var country: String = &quot;CN&quot;</span><br><span class="line">    var siteName = name</span><br><span class="line"></span><br><span class="line">    init &#123;</span><br><span class="line">        println(&quot;初始化网站名: $&#123;name&#125;&quot;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    fun printTest() &#123;</span><br><span class="line">        println(&quot;我是类的函数&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">    val runoob =  Runoob(&quot;菜鸟教程&quot;)</span><br><span class="line">    println(runoob.siteName)</span><br><span class="line">    println(runoob.url)</span><br><span class="line">    println(runoob.country)</span><br><span class="line">    runoob.printTest()</span><br><span class="line">&#125;</span><br><span class="line">// 初始化网站名: 菜鸟教程</span><br><span class="line">// 菜鸟教程</span><br><span class="line">// http://www.runoob.com</span><br><span class="line">// CN</span><br><span class="line">// 我是类的函数</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="次构造器"><a href="#次构造器" class="headerlink" title="次构造器"></a>次构造器</h3><p>二级构造函数，需要加前缀 constructor</p>
-<ul>
-<li><p>申明</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">class Person &#123; </span><br><span class="line">    constructor(parent: Person) &#123;</span><br><span class="line">        parent.children.add(this) </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">// 如果类的主构造器存在初始化函数init，则每个次构造器都需要实现初始化函数init；</span><br><span class="line">// 或直接或间接通过另一个次构造函数代理主构造函数。在同一个类中代理另一个构造函数使用this</span><br><span class="line">class Person(val name: String) &#123;</span><br><span class="line">    constructor (name: String, age:Int) : this(name) &#123;</span><br><span class="line">        // 初始化...</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>实例</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">class Runoob  constructor(name: String) &#123;  // 类名为 Runoob</span><br><span class="line">    // 大括号内是类体构成</span><br><span class="line">    var url: String = &quot;http://www.runoob.com&quot;</span><br><span class="line">    var country: String = &quot;CN&quot;</span><br><span class="line">    var siteName = name</span><br><span class="line"></span><br><span class="line">    init &#123;</span><br><span class="line">        println(&quot;初始化网站名: $&#123;name&#125;&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">    // 次构造函数</span><br><span class="line">    constructor (name: String, alexa: Int) : this(name) &#123;</span><br><span class="line">        println(&quot;Alexa 排名 $alexa&quot;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    fun printTest() &#123;</span><br><span class="line">        println(&quot;我是类的函数&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">    val runoob =  Runoob(&quot;菜鸟教程&quot;, 10000)</span><br><span class="line">    println(runoob.siteName)</span><br><span class="line">    println(runoob.url)</span><br><span class="line">    println(runoob.country)</span><br><span class="line">    runoob.printTest()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 初始化网站名: 菜鸟教程</span><br><span class="line">// Alexa 排名 10000</span><br><span class="line">// 菜鸟教程</span><br><span class="line">// http://www.runoob.com</span><br><span class="line">// CN</span><br><span class="line">// 我是类的函数</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<hr>
-<h2 id="类属性"><a href="#类属性" class="headerlink" title="类属性"></a>类属性</h2><ul>
-<li>类的属性可以用关键字 var 声明为可变的，否则使用只读关键字 val 声明为不可变。</li>
-<li><p>getter 和 setter 都是可选</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var allByDefault: Int? // 错误: 需要一个初始化语句, 默认实现了 getter 和 setter 方法</span><br><span class="line">var initialized = 1    // 类型为 Int, 默认实现了 getter 和 setter</span><br><span class="line">val simple: Int?       // 类型为 Int ，默认实现 getter ，但必须在构造函数中初始化</span><br><span class="line">val inferredType = 1   // 类型为 Int 类型,默认实现 getter</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>实例</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">class Person &#123;</span><br><span class="line">var lastName: String = &quot;zhang&quot;</span><br><span class="line">    get() = field.toUpperCase()   // 将变量赋值后转换为大写</span><br><span class="line">    set</span><br><span class="line"></span><br><span class="line">var no: Int = 100</span><br><span class="line">    get() = field                // field 关键词只能用于属性的访问器</span><br><span class="line">    set(value) &#123;</span><br><span class="line">        if (value &lt; 10) &#123;       // 如果传入的值小于 10 返回该值</span><br><span class="line">            field = value</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            field = -1         // 如果传入的值大于等于 10 返回 -1</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">var heiht: Float = 145.4f</span><br><span class="line">    private set</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 测试</span><br><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">    var person: Person = Person()</span><br><span class="line"></span><br><span class="line">    person.lastName = &quot;wang&quot;</span><br><span class="line"></span><br><span class="line">    println(&quot;lastName:$&#123;person.lastName&#125;&quot;)</span><br><span class="line"></span><br><span class="line">    person.no = 9</span><br><span class="line">    println(&quot;no:$&#123;person.no&#125;&quot;)</span><br><span class="line"></span><br><span class="line">    person.no = 20</span><br><span class="line">    println(&quot;no:$&#123;person.no&#125;&quot;)</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">// lastName:WANG</span><br><span class="line">// no:9</span><br><span class="line">// no:-1</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<hr>
-<h2 id="修饰符"><a href="#修饰符" class="headerlink" title="修饰符"></a>修饰符</h2><ul>
-<li>classModifier: 类属性修饰符，标示类本身特性。<ul>
-<li>abstract：抽象类  </li>
-<li>final：类不可继承，默认属性</li>
-<li>enum：枚举类</li>
-<li>open：类可继承，类默认是final的</li>
-<li>annotation：注解类</li>
-</ul>
-</li>
-<li>accessModifier: 访问权限修饰符<ul>
-<li>private：仅在同一个文件中可见</li>
-<li>protected：同一个文件中或子类可见</li>
-<li>public：所有调用的地方都可见</li>
-<li>internal：同一个模块中可见</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h2 id="抽象类"><a href="#抽象类" class="headerlink" title="抽象类"></a>抽象类</h2><p>类本身，或类中的部分成员，都可以声明为abstract的。抽象成员在类中不存在具体的实现。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">open class Base &#123;</span><br><span class="line">    open fun f() &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">abstract class Derived : Base() &#123;</span><br><span class="line">    override abstract fun f()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<hr>
-<h2 id="嵌套类"><a href="#嵌套类" class="headerlink" title="嵌套类"></a>嵌套类</h2><p>把类嵌套在其他类中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">class Outer &#123;                  // 外部类</span><br><span class="line">    private val bar: Int = 1</span><br><span class="line">    class Nested &#123;             // 嵌套类</span><br><span class="line">        fun foo() = 2</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">    val demo = Outer.Nested().foo() // 调用格式：外部类.嵌套类.嵌套类方法/属性</span><br><span class="line">    println(demo)    // == 2</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<hr>
-<h2 id="内部类"><a href="#内部类" class="headerlink" title="内部类"></a>内部类</h2><p>内部类会带有一个对外部类的对象的引用，所以内部类可以访问外部类成员属性和成员函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">class Outer &#123;</span><br><span class="line">    private val bar: Int = 1</span><br><span class="line">    var v = &quot;成员属性&quot;</span><br><span class="line">    /**嵌套内部类**/</span><br><span class="line">    inner class Inner &#123;</span><br><span class="line">        fun foo() = bar  // 访问外部类成员</span><br><span class="line">        fun innerTest() &#123;</span><br><span class="line">            var o = this@Outer //使用‘this@+外部类名’ 访问来自外部作用域的 this</span><br><span class="line">            println(&quot;内部类可以引用外部类的成员，例如：&quot; + o.v)  // 获取外部类的成员变量</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">    val demo = Outer().Inner().foo()</span><br><span class="line">    println(demo) //   1</span><br><span class="line">    val demo2 = Outer().Inner().innerTest()   </span><br><span class="line">    println(demo2)   // 内部类可以引用外部类的成员，例如：成员属性</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<hr>
-<h2 id="匿名内部类"><a href="#匿名内部类" class="headerlink" title="匿名内部类"></a>匿名内部类</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">class Test &#123;</span><br><span class="line">    var v = &quot;成员属性&quot;</span><br><span class="line"></span><br><span class="line">    fun setInterFace(test: TestInterFace) &#123;</span><br><span class="line">        test.test()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * 定义接口</span><br><span class="line"> */</span><br><span class="line">interface TestInterFace &#123;</span><br><span class="line">    fun test()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">    var test = Test()</span><br><span class="line"></span><br><span class="line">    /**</span><br><span class="line">     * 采用对象表达式来创建接口对象，即匿名内部类的实例。</span><br><span class="line">     */</span><br><span class="line">    test.setInterFace(object : TestInterFace &#123;</span><br><span class="line">        override fun test() &#123;</span><br><span class="line">            println(&quot;对象表达式创建匿名内部类的实例&quot;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2161,7 +2258,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
