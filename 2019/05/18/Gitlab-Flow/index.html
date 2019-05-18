@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="kotlin," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -79,18 +79,14 @@
 
 
 
-<meta name="description" content="概要循环控制：for、while、do…while   for可以对任何提供迭代器（iterator）的对象进行遍历  循环体是语句 1for (item in collection) print(item)  循环体是代码块 123for (i in array.indices) &amp;#123;    print(array[i])&amp;#125;  循环体为额外对象 123for ((index,">
-<meta name="keywords" content="kotlin">
 <meta property="og:type" content="article">
-<meta property="og:title" content="kotlin-loop-control">
-<meta property="og:url" content="http://yoursite.com/2018/02/27/kotlin-loop-control/index.html">
+<meta property="og:title" content="Gitlab_Flow">
+<meta property="og:url" content="http://yoursite.com/2019/05/18/Gitlab-Flow/index.html">
 <meta property="og:site_name" content="从你的全世界璐过">
-<meta property="og:description" content="概要循环控制：for、while、do…while   for可以对任何提供迭代器（iterator）的对象进行遍历  循环体是语句 1for (item in collection) print(item)  循环体是代码块 123for (i in array.indices) &amp;#123;    print(array[i])&amp;#125;  循环体为额外对象 123for ((index,">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-27T14:54:07.000Z">
+<meta property="og:updated_time" content="2019-05-18T15:02:31.979Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="kotlin-loop-control">
-<meta name="twitter:description" content="概要循环控制：for、while、do…while   for可以对任何提供迭代器（iterator）的对象进行遍历  循环体是语句 1for (item in collection) print(item)  循环体是代码块 123for (i in array.indices) &amp;#123;    print(array[i])&amp;#125;  循环体为额外对象 123for ((index,">
+<meta name="twitter:title" content="Gitlab_Flow">
 
 
 
@@ -120,13 +116,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/02/27/kotlin-loop-control/"/>
+  <link rel="canonical" href="http://yoursite.com/2019/05/18/Gitlab-Flow/"/>
 
 
 
 
 
-  <title>kotlin-loop-control | 从你的全世界璐过</title>
+  <title>Gitlab_Flow | 从你的全世界璐过</title>
   
 
 
@@ -243,7 +239,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/27/kotlin-loop-control/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/18/Gitlab-Flow/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Koyoshiro">
@@ -260,7 +256,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">kotlin-loop-control</h1>
+          <h1 class="post-title" itemprop="name headline">Gitlab_Flow</h1>
         
 
         <div class="post-meta">
@@ -272,8 +268,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-27T22:36:44+08:00">
-                2018-02-27
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-18T23:02:31+08:00">
+                2019-05-18
               </time>
             
 
@@ -310,24 +306,7 @@
       
 
       
-        <h2 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h2><p>循环控制：for、while、do…while </p>
-<hr>
-<h2 id="for"><a href="#for" class="headerlink" title="for"></a>for</h2><p>可以对任何提供迭代器（iterator）的对象进行遍历</p>
-<ul>
-<li><p>循环体是语句</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">for (item in collection) print(item)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>循环体是代码块</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for (i in array.indices) &#123;</span><br><span class="line">    print(array[i])</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>循环体为额外对象</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">for ((index, value) in array.withIndex()) &#123;</span><br><span class="line">    println(&quot;the element at $index is $value&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<hr>
-<h2 id="while与do…while"><a href="#while与do…while" class="headerlink" title="while与do…while"></a>while与do…while</h2><h3 id="while"><a href="#while" class="headerlink" title="while"></a>while</h3><p>满足条件即循环<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">while( 布尔表达式 ) &#123;</span><br><span class="line">  //循环内容</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="do…while"><a href="#do…while" class="headerlink" title="do…while"></a>do…while</h3><p>不满足条件也会执行一次，之后满足条件才循环。<br>与while的差别是：至少会执行一次。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">do &#123;</span><br><span class="line">    //代码语句</span><br><span class="line">&#125;while(布尔表达式);</span><br></pre></td></tr></table></figure></p>
-
+        
       
     </div>
     
@@ -342,12 +321,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/kotlin/" rel="tag"># kotlin</a>
-          
-        </div>
-      
 
       
       
@@ -357,8 +330,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/02/26/kotlin-condition-control/" rel="next" title="kotlin-condition-control">
-                <i class="fa fa-chevron-left"></i> kotlin-condition-control
+              <a href="/2019/03/23/Proxy&Reflect/" rel="next" title="Proxy&Reflect">
+                <i class="fa fa-chevron-left"></i> Proxy&Reflect
               </a>
             
           </div>
@@ -366,10 +339,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/02/27/kotlin-returns/" rel="prev" title="kotlin-returns">
-                kotlin-returns <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -421,17 +390,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -482,22 +442,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概要"><span class="nav-number">1.</span> <span class="nav-text">概要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#for"><span class="nav-number">2.</span> <span class="nav-text">for</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#while与do…while"><span class="nav-number">3.</span> <span class="nav-text">while与do…while</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#while"><span class="nav-number">3.1.</span> <span class="nav-text">while</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#do…while"><span class="nav-number">3.2.</span> <span class="nav-text">do…while</span></a></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
